@@ -17,7 +17,7 @@ export default function Home () {
                         <img src="./images/CoverFire.png"/>
                     </div>
                     <h3>Cover Fire</h3>
-                    <div Nameclass="rating">
+                    <div className="rating">
                         <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
                     </div>
                     <div className="data-buttons">
