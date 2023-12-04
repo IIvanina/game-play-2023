@@ -13,6 +13,7 @@ export const getOne = async (gameId) => {
     return result;
 }
 
+
 export const create = async (gameData) => {
     const result = await request.post( baseUrl, gameData)
 

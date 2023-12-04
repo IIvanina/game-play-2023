@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { Form, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import * as gameService from '../../services/gameService.js'
 import * as commentService from '../../services/commentService.js'
 
 export default function GameDetails() {
     const [game, setGame] = useState({});
+    const [comments, setComments] = useState([]);
     const { gameId } = useParams();
     useEffect( () => {
         gameService.getOne(gameId)
             .then(setGame)
+
+        commentService.getAll()
+            .then(setComments)    
     },[gameId])
 
     const createCommentHandler = async (e) => {
@@ -20,7 +24,9 @@ export default function GameDetails() {
             formData.get("username"),
             formData.get("comment")
             )
-        console.log(newComment);    
+
+        setComments(state => [...state, newComment])    
+         
     }
     return (
         <section id="game-details">
@@ -41,23 +47,23 @@ export default function GameDetails() {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                       
-                        <li className="comment">
-                            <p>Content: I rate this one quite highly.</p>
-                        </li>
-                        <li className="comment">
-                            <p>Content: The best game.</p>
-                        </li>
+                       {comments.map(({  _id, username, text}) => (
+                            <li key={_id} className="comment">
+                                <p>{username}: {text}</p>
+                            </li>
+                       ))}
+                        
+                        
                     </ul>
+                    {comments.length === 0 && <p className="no-comment">No comments.</p>}
                     
-                    <p className="no-comment">No comments.</p>
                 </div>
 
                
-                <div className="buttons">
+                {/* <div className="buttons">
                     <a href="#" className="button">Edit</a>
                     <a href="#" className="button">Delete</a>
-                </div>
+                </div> */}
             </div>
 
         
