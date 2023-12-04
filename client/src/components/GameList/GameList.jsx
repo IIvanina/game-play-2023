@@ -14,7 +14,7 @@ export default function GameList () {
             <h1>All Games</h1>
 
             {games.map(game => (
-                <GameListItem key={games._id} {...game} />
+                <GameListItem key={game._id} {...game} />
             ))}
 
             {games.length === 0 && <h3 className="no-articles">No articles yet</h3>}
