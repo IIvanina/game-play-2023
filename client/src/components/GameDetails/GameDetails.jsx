@@ -12,13 +12,13 @@ export default function GameDetails() {
     },[gameId])
 
     const createCommentHandler = async (e) => {
-        e.preventDefalt();
+        e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
         const newComment = await commentService.create(
             gameId,
-            formData.get(username),
-            formData.get(comment),
+            formData.get("username"),
+            formData.get("comment")
             )
         console.log(newComment);    
     }
