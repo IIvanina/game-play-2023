@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Form, useParams } from "react-router-dom";
 import * as gameService from '../../services/gameService.js'
+import * as commentService from '../../services/commentService.js'
 
 export default function GameDetails() {
     const [game, setGame] = useState({});
@@ -9,13 +10,24 @@ export default function GameDetails() {
         gameService.getOne(gameId)
             .then(setGame)
     },[gameId])
+
+    const createCommentHandler = async (e) => {
+        e.preventDefalt();
+
+        const formData = new FormData(e.currentTarget);
+        const newComment = await commentService.create(
+            gameId,
+            formData.get(username),
+            formData.get(comment),
+            )
+        console.log(newComment);    
+    }
     return (
         <section id="game-details">
             <h1>Game Details</h1>
             <div className="info-section">
-
                 <div className="game-header">
-                    <img className="game-img" src={game.imageUrl} />
+                    <img className="game-img" src={game.imageUrl} alt={game.title} />
                     <h1>{game.title}</h1>
                     <span className="levels">{game.maxLevel}</span>
                     <p className="type">{game.category}</p>
@@ -51,7 +63,8 @@ export default function GameDetails() {
         
             <article className="create-comment">
                 <label>Add new comment:</label>
-                <form className="form">
+                <form className="form" onSubmit={createCommentHandler}>
+                    <input type="text" name="username" placeholder="user name" />
                     <textarea name="comment" placeholder="Comment......"></textarea>
                     <input className="btn submit" type="submit" value="Add Comment" />
                 </form>
